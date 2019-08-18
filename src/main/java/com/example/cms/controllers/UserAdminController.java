@@ -35,7 +35,7 @@ public class UserAdminController {
         userValidator.validate(userForm, bindingResult);
 
         if(bindingResult.hasErrors()){
-            return "admin/Registration";
+            return "admin/registration";
         }
         userService.save(userForm);
         securityService.autoLogin(userForm.getUsername(),userForm.getPasswordConfirm());
