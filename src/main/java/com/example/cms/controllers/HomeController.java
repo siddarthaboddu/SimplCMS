@@ -4,6 +4,7 @@ import com.example.cms.models.Page;
 import com.example.cms.services.PageService;
 import liqp.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @Controller
 public class HomeController {
@@ -38,16 +41,32 @@ public class HomeController {
         return new ResponseEntity<String>(rendered, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping(value = "/resources/**", produces = {"text/json;charset=utf-8", "text/css;charset=utf-8"})
+    @GetMapping(value = "/resources/**", produces = {"text/javascript;charset=utf-8", "text/css;charset=utf-8"})
     public ResponseEntity<byte[]> getFile(final HttpServletRequest request) throws IOException {
         String[] URI = request.getRequestURI().split("/resources/");
 
         final File file = ResourceUtils.getFile("classpath:static/" + URI[1]);
         final InputStream targetStream = new DataInputStream(new FileInputStream(file));
 
-        return ResponseEntity.ok()
-                .header("Content-Disposition", "attachment; filename=" + file.getName())
-                .body(Files.readAllBytes(file.toPath()));
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        String[] fileNameArray = file.getName().toString().split("\\.");
+        System.out.println("**********************************");
+        System.out.println(Arrays.toString(URI));
+        System.out.println(file.getName());
+        System.out.println(Arrays.toString(fileNameArray));
+        System.out.println("**********************************");
+        String fileType = fileNameArray[fileNameArray.length - 1];
+        if(fileType.equals("js")) fileType = "javascript";
+        String contentType = "text/"+fileType;
+
+
+        responseHeaders.add("Content-Disposition","attachment; filename=" + file.getName());
+        responseHeaders.add("Content-Type",contentType + "; charset=UTF-8");
+//        return ResponseEntity.ok()
+//                .(responseHeaders)
+//                .body(Files.readAllBytes(file.toPath()));
+        return ResponseEntity.ok().headers(responseHeaders).body(Files.readAllBytes(file.toPath()));
     }
 
     @GetMapping("/hi")

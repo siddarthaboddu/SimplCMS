@@ -38,9 +38,14 @@ public class UserAdminController {
             return "admin/registration";
         }
         userService.save(userForm);
-        securityService.autoLogin(userForm.getUsername(),userForm.getPasswordConfirm());
 
-        return "redirect:/admin";
+        if(securityService.autoLogin(userForm.getUsername(),userForm.getPasswordConfirm())){
+            return "redirect:/admin";
+        }
+        else{
+            return "redirect:/login";
+        }
+
     }
 
     @GetMapping("/admin/login")
@@ -51,7 +56,24 @@ public class UserAdminController {
         if (logout != null)
             model.addAttribute("message", "You have been logged out successfully.");
 
+        model.addAttribute("userLoginForm", new User());
+
         return "admin/login";
+    }
+
+    @PostMapping("/admin/login")
+    public String login(@ModelAttribute("userLoginForm") User userLoginForm, BindingResult bindingResult){
+
+        String username = userService.findByEmail(userLoginForm.getEmail()).getUsername();
+        userLoginForm.setUsername(username);
+        
+        if(securityService.autoLogin(userLoginForm.getUsername(),userLoginForm.getPasswordConfirm())){
+            return "redirect:/admin";
+        }
+        else{
+            return "redirect:/login";
+        }
+
     }
 
 
