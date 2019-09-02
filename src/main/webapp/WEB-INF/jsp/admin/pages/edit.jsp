@@ -28,7 +28,7 @@
 <body>
 
 <div>
-<%@ include file = "../parts/header.jsp" %>
+    <%@ include file = "../parts/header.jsp" %>
 </div>
 
 <div style="float:left;height: calc(100vh - 70px)">
@@ -36,11 +36,14 @@
 </div>
 <div class="row" style="width: calc(100% - 250px);height: calc(100vh - 70px)">
     <div class="col-lg-4" >
-        <%@ include file = "parts/create_page_form.jsp" %>
+<%--        <%@ include file = "parts/edit_page_form.jsp"  %>--%>
+        <jsp:include page="parts/edit_page_form.jsp">
+            <jsp:param name="page" value="${page}" />
+        </jsp:include>
     </div>
     <div class="col-lg-8" style="padding: 10px 0px 10px 5px; ">
         <div>
-            <textarea id="codemirror-textarea" style="width: 80%" class="code-input"></textarea>
+            <textarea id="codemirror-textarea" style="width: 80%" class="code-input">${page.content}</textarea>
         </div>
     </div>
 </div>
@@ -93,9 +96,9 @@
         // $.post("/admin/pages/new",form.serialize(),function(data){
         //     alert(data);
         $.ajax({
-            type: "POST",
+            type: "PUT",
             contentType: "application/json",
-            url: "/admin/pages/new",
+            url: "/admin/pages/${page.id}",
             headers: {"X-CSRF-TOKEN": formJsonObject._csrf},
             data: JSON.stringify(formJsonObject),
             dataType: "json",
