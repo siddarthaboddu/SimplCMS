@@ -3,15 +3,19 @@ package com.example.cms.controllers;
 import com.example.cms.models.Page;
 import com.example.cms.services.PageService;
 import liqp.Template;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -22,8 +26,9 @@ public class HomeController {
 
     @Autowired
     private PageService pageService;
+    private ServletContext servletContext;
 
-    @GetMapping("/**")
+    @GetMapping({"/**","/error"})
     public ResponseEntity<String> genericLoader(final HttpServletRequest request) {
         System.out.println(request.getRequestURI());
         String route = request.getRequestURI();
@@ -68,6 +73,11 @@ public class HomeController {
 //                .body(Files.readAllBytes(file.toPath()));
         return ResponseEntity.ok().headers(responseHeaders).body(Files.readAllBytes(file.toPath()));
     }
+
+//    @GetMapping("/resources/images/**")
+//    public ResponseEntity<byte[]> getImage()
+
+
 
     @GetMapping("/hi")
     public ResponseEntity<String> hii() {

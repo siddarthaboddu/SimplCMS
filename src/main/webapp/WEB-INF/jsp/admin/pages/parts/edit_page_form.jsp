@@ -18,6 +18,7 @@
     button {
         background-color: #7386D5;
         color: white;
+        width: 90px;
         padding: 6px 20px;
         border: none;
         border-radius: 4px;
@@ -39,6 +40,7 @@
         padding: 0px;
         margin-bottom: 2px;
     }
+
 </style>
 
 <h4 style="margin: 25px 10px 10px 8px">Edit Page</h4>
@@ -57,6 +59,7 @@
         <input type="hidden" name="id" value="${page.id}"/>
 
         <button id="newPageFormSubmitBtn" type="button">Submit</button>
+        <button id="visitPage" type="button" onclick="window.location='${page.route}'" style="float:right">Visit</button>
     </form>
 </div>
 

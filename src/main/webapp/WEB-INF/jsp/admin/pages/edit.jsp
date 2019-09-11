@@ -68,6 +68,14 @@
     });
     console.log("editor");
     console.log(editor);
+
+    function autoFormat() {
+        var totalLines = editor.lineCount();
+        var totalChars = editor.getTextArea().value.length;
+        editor.autoFormatRange({line:0, ch:0}, {line:totalLines, ch:totalChars});
+    }
+
+    autoFormat();
 </script>
 
 <script>
