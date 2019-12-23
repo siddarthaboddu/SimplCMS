@@ -61,7 +61,7 @@
             </div>
 
             <c:forEach var="listValue" items="${pages}">
-                <div class="card" style="width: 95%; margin: 10px auto 20px;">
+                <div id="pagerow" class="card" style="width: 95%; margin: 10px auto 20px;">
                     <div class="card-body row">
                         <a class="col-md-4 pagehref" href="/admin/pages/${listValue.id}">${listValue.name}</a>
                         <div class="col-md-4"  >${listValue.description}</div>
@@ -88,16 +88,16 @@
          text-decoration: none;
      }
 
-    .pagehref:hover {
-        color: red;
-        background-color: transparent;
-        text-decoration: underline;
-    }
 
     .pagehref:active {
         color: yellow;
         background-color: transparent;
         text-decoration: underline;
+    }
+
+    #pagerow:hover {
+        background: #7386D5 !important;
+        color: #ffffff !important;
     }
 
 </style>
