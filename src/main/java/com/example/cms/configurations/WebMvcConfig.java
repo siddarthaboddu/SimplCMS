@@ -25,8 +25,8 @@ public class WebMvcConfig extends WebSecurityConfigurerAdapter {
 //        httpSecurity.antMatcher("/**").authorizeRequests().anyRequest().permitAll();
 //        httpSecurity.antMatcher("/admin/login").authorizeRequests().anyRequest().permitAll();
         httpSecurity.authorizeRequests()
-                .antMatchers("/admin/login","/admin/registration","/admin/","/admin").permitAll()
-                .antMatchers("/admin/**").authenticated();
+                .antMatchers("/admin/login","/admin/registration","/admin", "/admin/**").permitAll();
+//                .antMatchers("/admin/**").authenticated();
 //                .and().formLogin().loginPage("/admin/login");
 
     }

@@ -43,7 +43,7 @@ public class UserAdminController {
             return "redirect:/admin";
         }
         else{
-            return "redirect:/login";
+            return "redirect:/admin/login";
         }
 
     }
@@ -68,10 +68,10 @@ public class UserAdminController {
         userLoginForm.setUsername(username);
         
         if(securityService.autoLogin(userLoginForm.getUsername(),userLoginForm.getPasswordConfirm())){
-            return "redirect:/admin";
+            return "redirect:/admin/";
         }
         else{
-            return "redirect:/login";
+            return "redirect:/admin/login";
         }
 
     }
